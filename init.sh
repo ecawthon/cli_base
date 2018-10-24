@@ -1,5 +1,5 @@
 #!/bin/bash
-ln -s ./.* ~/ && ls -la ~
+ln -s $HOME/cli_base/.* $HOME/ && ls -la ~
 cd ~
 ./.zprezto/init.sh
 cd ~/.vim
