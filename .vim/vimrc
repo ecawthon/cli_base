@@ -1,0 +1,512 @@
+" Based on the default vimrc by Bram Moolenaar <Bram@vim.org>
+"
+" Significantly modified by Eleanor Cawthon
+
+" {{{ From the default
+
+" When started as "evim", evim.vim will already have done these settings.
+if v:progname =~? "evim"
+  finish
+endif
+
+" Use Vim settings, rather than Vi settings (much better!).
+" This must be first, because it changes other options as a side effect.
+set nocompatible
+filetype off
+
+" allow backspacing over everything in insert mode
+set backspace=indent,eol,start
+
+if has("vms")
+  set nobackup		" do not keep a backup file, use versions instead
+else
+  set backup		" keep a backup file
+endif
+set history=50		" keep 50 lines of command line history
+set ruler		" show the cursor position all the time
+set showcmd		" display incomplete commands
+set incsearch ignorecase smartcase		" do incremental searching
+
+" For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
+" let &guioptions = substitute(&guioptions, "t", "", "g")
+
+" Don't use Ex mode, use Q for formatting
+" map Q gq
+
+" CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
+" so that you can undo CTRL-U after inserting a line break.
+inoremap <C-U> <C-G>u<C-U>
+
+" In many terminal emulators the mouse works just fine, thus enable it.
+if has('mouse')
+  set mouse=a
+endif
+
+" Switch syntax highlighting on, when the terminal has colors
+" Also switch on highlighting the last used search pattern.
+if &t_Co > 2 || has("gui_running")
+  syntax on
+  set hlsearch
+  "colors
+  set t_Co=256
+  let g:solarized_termcolors=256
+  let g:solarized_underline=0    "default value is 1
+  let g:solarized_contrast="high"    "default value is normal
+  let g:solarized_visibility="high"    "default value is normal
+  let g:molokai_original = 1
+  colors summerfruit256
+endif
+
+" Convenient command to see the difference between the current buffer and the
+" file it was loaded from, thus the changes you made.
+" Only define it when not defined already.
+if !exists(":DiffOrig")
+  command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+          \ | wincmd p | diffthis
+endif
+
+" }}} end default
+
+"""""""""""" {{{ MISC VIM SETTINGS
+set autoindent
+set expandtab
+set wildmode=list:longest
+"actually go to end of line
+set virtualedit=onemore
+set cul
+
+"folding
+set foldmethod=indent
+set foldnestmax=10
+set nofoldenable
+set foldlevel=1
+" }}} misc
+
+"""""""""""" {{{ BUNDLE
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'gmarik/Vundle.vim'
+
+""" syntax/languages
+Plugin 'scrooloose/syntastic' " Syntax checking for lots of languages
+Plugin 'tomtom/tcomment_vim' " (un/)comment lines with 'gc' motion
+" Plugin 'Valloric/YouCompleteMe' " intelligent autocomplete - requires compiling
+" Plugin 'msanders/snipmate.vim' " snippets
+" Plugin 'ervandew/supertab' " tab completion - not needed if YCM is used
+" Plugin 'xolox/vim-easytags' " tags, for languages that don't provide their own
+
+" git
+Plugin 'tpope/vim-fugitive' " Git integration
+Plugin 'tpope/vim-git' " Git syntax
+
+" go
+" Plugin 'nsf/gocode'
+" Plugin 'golang/lint'
+" Plugin 'kisielk/errcheck'
+" Plugin 'jstemmer/gotags'
+" Plugin 'fatih/vim-go'
+
+" haskell
+" Plugin 'lukerandall/haskellmode-vim'
+" Plugin 'travitch/hasksyn'
+
+" latex
+" Plugin 'git://git.code.sf.net/p/vim-latex/vim-latex'
+Plugin 'vim-latex/vim-latex'
+" Plugin 'vim-scripts/Latex-Text-Formatter'
+
+" markdown
+Plugin 'plasticboy/vim-markdown'
+Plugin 'jszakmeister/markdown2ctags'
+
+" python
+Plugin 'mitechie/pyflakes-pathogen' " python syntax/warning checking
+Plugin 'mileszs/ack.vim'
+Plugin 'fs111/pydoc.vim'
+" Plugin 'vim-scripts/pep8' " python code validation
+Plugin 'alfredodeza/pytest.vim'
+Plugin 'reinh/vim-makegreen'
+Plugin 'hynek/vim-python-pep8-indent'
+" Plugin 'python-rope/ropemode'
+" Plugin 'python-rope/ropevim'
+
+""" UI
+" lines
+Plugin 'bling/vim-airline' " improved  status bar (forked from powerline)
+Plugin 'vim-airline/vim-airline-themes' " improved  status bar (forked from powerline)
+" Plugin 'bling/vim-bufferline' " addition to airline to show tabs/buffers
+" Plugin 'fholgado/minibufexpl.vim' " adds a bar with open buffers at the top
+" Plugin 'thinca/vim-fontzoom' " change the font size with contorl +/-
+" Plugin 'luochen1990/rainbow' " parens nesting
+Plugin 'kien/rainbow_parentheses.vim' " parens nesting
+
+" colors
+" Plugin 'vim-scripts/hexHighlight.vim' " for tweaking color schemes
+Plugin 'MichaelMalick/vim-colors-bluedrake' " another color scheme
+" Plugin 'altercation/vim-colors-solarized' " another color scheme
+Plugin 'freeo/vim-kalisi'
+
+" sidebars
+Plugin 'scrooloose/nerdtree' " show sidebar with directory structure
+Plugin 'vim-scripts/taglist.vim' " show sidebar with file organization
+Plugin 'majutsushi/tagbar' " same idea as taglist but sometimes one or the other
+                           " works better so I have both installed
+Plugin 'vim-scripts/TaskList.vim' " Todo sidebar
+Plugin 'sjl/gundo.vim' " revision history
+" Plugin 'wincent/Command-T' " fuzzy file search
+
+""" other
+Plugin 'xolox/vim-misc' " required for other xolox plugins
+" Plugin 'xolox/vim-notes' " simple note-taking filetype/system
+Plugin 'tpope/vim-surround' " add vim motions to change what text is surrounded
+                            " with (e.g., parens vs. square brackers vs. quotes)
+call vundle#end()
+" }}} Bundle
+
+"""""""""""" {{{ UI
+if has("gui_running")
+  set mousemodel=popup
+  " cursor tweaks
+  set guicursor=n-v-c:block-Cursor/lCursor "normal, visual, command line
+  set guicursor+=ve:ver10-Cursor "Visual mode with 'selection' \"exclusive"
+  set guicursor+=o:ver10-Cursor "Operator-pending mode
+  set guicursor+=i-ci:ver10-Cursor/lCursor "insert/command-line insert mode
+  set guicursor+=r-cr:hor51-Cursor/lCursor "replace/command-line replace mode
+  set guicursor+=sm:ver10-Cursor-blinkwait175-blinkoff150-blinkon175
+  " make gvim have a minimal UI
+  set guioptions-=T
+  set guioptions-=r
+  set guioptions-=L
+  set guioptions-=m
+  " Uncomment or add below if you have a Powerline font installed
+  " set guifont=Inconsolata\ for\ Powerline\ Medium\ 8
+  " set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Medium\ 8
+  " set guifont=Meslo\ LG\ M\ DZ\ for\ Powerline\ 10
+  set guifont=Iosevka\ Term\ Medium\ 10
+  let g:molokai_original = 1
+endif
+" }}} UI
+
+"""""""""""" {{{ AUTO COMMANDS/Language specific
+fun! UpdateWriting(mode)
+    " When called with 1, makes adjustments to work better for plain text-ish
+    " formats (e.g., spell text and line wrapping).
+    " Called with 0, it undoes these, restores line numbering, etc.
+    " You can also have it change the color scheme by adding a line to the 1
+    " case.
+  let g:WritingMode = a:mode
+
+  if a:mode == 1
+    setlocal spell spelllang=en_us
+    set tabstop=2
+    set shiftwidth=2
+    set nonumber
+    set spell
+    set wrap
+    set colorcolumn=+1
+
+  else
+    set nowrap
+    set tabstop=4
+    set shiftwidth=4
+    set number
+    set nospell
+    set colorcolumn=+1
+  endif
+  " AirlineRefresh
+endfun
+let g:WritingMode = 0
+
+""" Text/markdown
+
+fun! TextToMarkdown()
+    " look for things that look like code snippets in a text file and surround
+    " them with ` so they show up as code when read as markdown
+    :%s/\([a-zA-Z]*[a-z][A-Z][a-zA-Z]*\)/`\1`/g
+    :%s/\([a-zA-Z]*_[a-zA-Z]*\)/`\1`/g
+    :%s/\(\s\)\([A-Z][A-Z][A-Z]*\)\(\s\)/\1`\2`\3/g
+    :%s/\([A-Z] -> [A-Z]\)/`\1` /g
+    :%s/\(\s\)\([B-HJ-Z]\)\(\s\)/\1`\2`\3/g
+    :%s/\(\s\)\([b-hj-z]\)\(\s\)/\1`\2`\3/g
+    :%s/```*/`/g
+    :%s/^$\n==*$//g
+    :%s/^$\n\({.*\)$/```\r\1/g
+    :%s/\(}.*$\)\n^$/\1\r```/g
+    :%s/^\(\(-\)\@!.*\)$\n\(- .*\)$/\1\r\r\3/g
+endfun
+
+""" Latex
+fun! SetupLatex()
+    set conceallevel=2
+	call UpdateWriting(1)
+    " if has("gui_running")
+    "     AirlineRefresh
+    " endif
+endfun
+"compiler tex
+"set makeprg=pdflatex\ \-file\-line\-error\ \-interaction=nonstopmode
+"set errorformat=%f:%\ %m
+map <F4> :set conceallevel=0<CR>
+map <Leader><F4> :set conceallevel=2<CR>
+
+""" Python
+fun! SetupPython()
+    set foldmethod=indent
+    set foldlevel=99
+endfun
+fun! SavePython()
+    :%s/\s\+$//e
+endfun
+let g:python_slow_sync=1
+let g:python_highlight_all=1
+
+let g:writing = ['tex', 'latex', 'text']
+
+" Only do this part when compiled with support for autocommands.
+if has("autocmd")
+
+  " Enable file type detection.
+  " Use the default filetype settings, so that mail gets 'tw' set to 72,
+  " 'cindent' is on in C files, etc.
+  " Also load indent files, to automatically do language-dependent indenting.
+  filetype plugin indent on
+
+  " Put these in an autocmd group, so that we can delete them easily.
+  augroup vimrcEx
+  au!
+
+  " For all text files set 'textwidth' to 80 characters.
+  autocmd FileType * setlocal textwidth=80
+
+  " Set writing mode according to filetype
+  autocmd FileType *
+              \ if index(g:writing, &ft) !=# -1 | call SetupLatex() |
+              \ else | call UpdateWriting(0) |
+              \endif
+
+  " When editing a file, always jump to the last known cursor position.
+  " Don't do it when the position is invalid or when inside an event handler
+  " (happens when dropping a file on gvim).
+  " Also don't do it when the mark is in the first line, that is the default
+  " position when opening a file.
+  autocmd BufReadPost *
+    \ if line("'\"") > 1 && line("'\"") <= line("$") |
+    \   exe "normal! g`\"" |
+    \ endif
+  augroup END
+
+  " Remove trailing whitespace on every save
+  autocmd BufWritePre * :%s/\s\+$//e
+  autocmd BufWritePre,Filetype python : call SavePython()
+
+else
+    set autoindent
+
+endif " has("autocmd")
+" }}} Auto commands
+
+"""""""""""" {{{ SHORTCUTS
+"remapping for wrapped text
+let mapleader="'"
+inoremap <Up> <C-o>gk
+inoremap <Down> <C-o>gj
+inoremap <Home> <C-o>g<Home>
+inoremap <End> <C-o>g<End>
+noremap k gk
+noremap j gj
+nnoremap ; :
+set linebreak
+
+noremap <Leader><F3> :nohlsearch<CR>
+noremap <F7> :set spell!<CR>
+noremap <F8> :call UpdateWriting(1-g:WritingMode)<CR>
+" show the syntax group of the selected text
+map <Leader><F8> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+
+noremap <Leader>m :!make<CR>
+
+" window navigation
+noremap <c-j> <c-w>j
+noremap <c-k> <c-w>k
+noremap <c-l> <c-w>l
+noremap <c-h> <c-w>h
+
+"plugins
+"Note: \<F2> is toggle hex code highlighting
+map <F3> :RopeGotoDefinition<CR>
+map <leader>r :RopeRename<CR>
+noremap <F9> :NERDTreeToggle<CR>
+" :noremap <F10> :TlistToggle<CR>
+noremap <F10> :TagbarToggle<CR>
+noremap <leader><F10> :TlistToggle<CR>
+map <leader>td <Plug>TaskList
+map <leader>g :GundoToggle<CR>
+" Go
+" au Filetype go nnoremap <leader>t :split <CR>:exe "GoDef"<CR>
+" au Filetype go nnoremap <leader>d :Godoc <CR>
+au FileType go nmap <Leader>gd <Plug>(go-doc)
+au Filetype go nnoremap <C-b> :GoBuild <CR>
+au Filetype go nnoremap <leader>r :GoBuild <CR>:GoRun %<CR>
+let g:go_fmt_autosave = 0
+au FileType text nnoremap <leader>md call TextToMarkdown()<CR>
+" Python
+let g:pep8_map='<leader>8'
+"Note: <leader>pw is view pydoc
+" }}} shortcuts
+
+"""""""""""" {{{ PLUGINS
+""" UI
+"airline
+set laststatus=2
+set encoding=utf-8
+set termencoding=utf-8
+set ambiwidth=single
+set isprint=@,128-255
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+let g:airline_powerline_fonts=1
+" Uncomment some of these if a powerline font isn't installed
+" let g:airline_left_sep = '»'
+" let g:airline_left_sep = '▶'
+" let g:airline_right_sep = '«'
+" let g:airline_right_sep = '◀'
+" let g:airline_symbols.linenr = '␊'
+" let g:airline_symbols.linenr = '␤'
+" let g:airline_symbols.linenr = '¶'
+" let g:airline_symbols.branch = '⎇'
+" let g:airline_symbols.paste = 'ρ'
+" let g:airline_symbols.paste = 'Þ'
+" let g:airline_symbols.paste = '∥'
+" let g:airline_symbols.whitespace = 'Ξ'
+let g:airline_symbols.space = "\ua0"
+let g:airline#extensions#tabline#enabled = 0
+" let g:airline#extensions#tabline#show_buffers = 1
+" let g:airline#extensions#tabline#buffer_nr_show = 1
+" let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+" let g:airline#extensions#tabline#left_sep = ""
+" let g:airline#extensions#tabline#right_sep = ""
+" let g:airline#extensions#tabline#left_alt_sep = ""
+" let g:airline#extensions#tabline#right_alt_sep = ""
+let g:airline_theme = 'wombat'
+" let g:airline#extensions#tabline#tab_min_count = 2
+" let g:airline#extensions#bufferline#enabled = 1
+let g:airline#extensions#branch#displayed_head_limit = 5
+" let g:airline_left_alt_sep = ''
+" let g:airline_left_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_right_sep = ''
+autocmd VimEnter * let g:airline_section_b = airline#section#create(['tagbar'])
+autocmd VimEnter * let g:airline_section_x = airline#section#create_right(['%t'])
+autocmd VimEnter * let g:airline_section_y = airline#section#create_right(['branch'])
+
+" bufferline
+let g:bufferline_echo = 1
+let g:bufferline_rotate = 1
+let g:bufferline_fixed_index = -1
+
+"AutoComplPop
+"let g:acp_enableAtStartup=0
+
+"EasyTags
+let g:easytags_ignored_filetypes = ""
+
+"Go
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+
+"Haskell
+if has("gui_running")
+    let g:haddock_browser="/usr/bin/firefox"
+else
+    let g:haddock_browser="/usr/bin/lynx"
+endif
+let g:haddock_docdir="/usr/share/doc/ghc/"
+
+"miniBufExpl
+"let g:miniBufExplMapCTabSwitchBufs = 1
+"let g:miniBufExplForceSyntaxEnable = 1
+
+"Rainbow parens
+let g:rainbow_active = 1
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
+
+"supertab
+let g:SuperTabDefaultCompletionType = 'context'
+let g:SuperTabMappingForward = '<tab>'
+let g:SuperTabMappingBackward = '<s-tab>'
+set completeopt=menuone,longest
+
+"Syntastic
+let g:syntastic_quiet_messages = { "type": "style",
+                                 \ "regex": 'unwanted space'}
+let g:syntastic_python_flake8_quiet_messages = { "regex": 'unused'}
+let g:syntastic_python_python_exe = 'python3'
+" let g:syntastic_error_symbol = "✗"
+" let g:syntastic_warning_symbol = "⚠"
+let g:syntastic_python_pylint_exe = 'PYTHONPATH=${PYTHONPATH}:$(dirname %d) pylint --output-format=parseable'
+let g:syntastic_python_checkers = ['flake8']
+let g:syntastic_stl_format = "[%E{%e E:%fe} %W{%w W:%fw}]"
+
+"TagList
+"let g:Tlist_Auto_Highlight_Tag = 1
+let g:Tlist_Compact_Format = 1
+let g:Tlist_Exit_OnlyWindow = 1
+let g:Tlist_Use_Right_Window = 1
+
+"Tagbar
+let g:tagbar_iconchars = ['▸', '▾']
+let g:tagbar_type_mkd = {
+    \ 'ctagstype': 'mkd',
+    \ 'ctagsbin' : '~/.vim/bundle/markdown2ctags/markdown2ctags.py',
+    \ 'ctagsargs' : '-f - --sort=yes',
+    \ 'kinds' : [
+        \ 's:sections',
+        \ 'i:images'
+    \ ],
+    \ 'sro' : '|',
+    \ 'kind2scope' : {
+        \ 's' : 'section',
+    \ },
+    \ 'sort': 0,
+\ }
+
+"vim-notes
+let g:notes_directories= ['~/Documents/Dropbox/homework/notes']
+let g:notes_suffix='.txt'
+let g:notes_tagsinded='~/Documents/Dropbox/homework/notes/tags.txt'
+"bullets
+setlocal formatoptions=ctnqro
+setlocal comments+=n:*,n:#
+
+"vim-latex
+let g:Tex_DefaultTargetFormat='pdf'
+let g:Tex_IgnoredWarnings=
+            \"Underfull\n".
+            \"Overfull\n".
+            \"specifier changed to\n".
+            \"You have requested\n".
+            \"Missing number, treated as zero.\n".
+            \"There were undefined references\n".
+            \"Citation %.%# undefined\n".
+            \"Marginpar"
+let g:Tex_IgnoreLevel=8
+let g:tex_flavor = 'latex'
+" let g:Tex_CompileRule_pdf='make'
+let g:Tex_TaglistSupport = 1
+let g:Tex_InternalTagsDefinitions = 1
+" map Q <ESC>:call FormatLatexPar(0)<CR>
+imap <C-space> <Plug>IMAP_JumpForward
+
+"YouCompleteMe
+let g:ycm_add_preview_to_completeopt=0
+
+""" }}} Plugins
