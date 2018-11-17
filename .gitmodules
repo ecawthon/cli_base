@@ -4,6 +4,3 @@
 [submodule ".zprezto"]
 	path = prezto
 	url = https://github.com/sorin-ionescu/prezto.git
-[submodule ".vim/fonts"]
-	path = vim/fonts
-    url = https://github.com/powerline/fonts.git
