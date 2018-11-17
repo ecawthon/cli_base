@@ -1,9 +1,9 @@
 [submodule ".vim/bundle/Vundle.vim"]
-	path = .vim/bundle/Vundle.vim
+	path = vim/bundle/Vundle.vim
 	url = https://github.com/VundleVim/Vundle.vim.git
 [submodule ".zprezto"]
-	path = .zprezto
+	path = prezto
 	url = https://github.com/sorin-ionescu/prezto.git
 [submodule ".vim/fonts"]
-    path = .vim/fonts
+	path = vim/fonts
     url = git@github.com:powerline/fonts.git

@@ -1,12 +1,11 @@
 #!/bin/bash
-sudo apt-get install zsh tmux neovim ctags
-git submodule init
-git submodule update
-ln -s $PWD/.* $HOME/ && ls -la ~
-ln -s ~/.vim/vimrc ~/.vim/init.vim
-cd ~/.vim
-git submodule init
-git submodule update
+sudo apt-get install zsh tmux neovim ctags ranger
+git submodule update --init --recursive
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+ln -s $DIR/tmux.conf $HOME/.vim
+ln -s $DIR/vim $HOME/.vim
+ln -s $DIR/vim/vimrc $HOME/.vim/init.vim
+cd $HOME/.vim
+git submodule update --init
 vim +PluginInstall +qall
-setopt EXTENDED_GLOB
-/bin/zsh zinit.sh
+ZDOTDIR=$DIR/.zprezto /bin/zsh $DIR/zinit.sh
