@@ -9,4 +9,4 @@ ln -s $DIR/vim/init.vim $HOME/.config/nvim/init.vim
 cd $HOME/.vim
 git submodule update --init
 vim +PluginInstall +qall
-ZDOTDIR=$DIR/.zprezto /bin/zsh $DIR/zinit.sh
+ZDOTDIR=$DIR/zdotfiles /bin/zsh $DIR/zinit.sh
