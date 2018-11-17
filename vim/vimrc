@@ -112,7 +112,7 @@ Plugin 'tpope/vim-git' " Git syntax
 
 " latex
 " Plugin 'git://git.code.sf.net/p/vim-latex/vim-latex'
-Plugin 'vim-latex/vim-latex'
+" Plugin 'vim-latex/vim-latex'
 " Plugin 'vim-scripts/Latex-Text-Formatter'
 
 " markdown
