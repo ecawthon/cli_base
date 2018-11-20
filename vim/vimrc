@@ -92,8 +92,14 @@ Plugin 'scrooloose/syntastic' " Syntax checking for lots of languages
 Plugin 'tomtom/tcomment_vim' " (un/)comment lines with 'gc' motion
 " Plugin 'Valloric/YouCompleteMe' " intelligent autocomplete - requires compiling
 " Plugin 'msanders/snipmate.vim' " snippets
-" Plugin 'ervandew/supertab' " tab completion - not needed if YCM is used
+Plugin 'ervandew/supertab' " tab completion - not needed if YCM is used
 " Plugin 'xolox/vim-easytags' " tags, for languages that don't provide their own
+Plugin 'vim-vdebug/vdebug'
+
+" nvim
+Plugin 'roxma/nvim-completion-manager'
+Plugin 'bfredl/nvim-miniyank'
+Plugin 'w0rp/ale' " linting
 
 " git
 Plugin 'tpope/vim-fugitive' " Git integration
@@ -106,18 +112,32 @@ Plugin 'tpope/vim-git' " Git syntax
 " Plugin 'jstemmer/gotags'
 " Plugin 'fatih/vim-go'
 
-" haskell
-" Plugin 'lukerandall/haskellmode-vim'
-" Plugin 'travitch/hasksyn'
+"haskell
+Plugin 'lukerandall/haskellmode-vim'
+Plugin 'travitch/hasksyn'
+
+" javascript
+Plugin 'pangloss/vim-javascript'
 
 " latex
 " Plugin 'git://git.code.sf.net/p/vim-latex/vim-latex'
-" Plugin 'vim-latex/vim-latex'
+Plugin 'vim-latex/vim-latex'
 " Plugin 'vim-scripts/Latex-Text-Formatter'
 
 " markdown
+" Plugin 'gabrielelana/vim-markdown'
+Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'jszakmeister/markdown2ctags'
+Plugin 'tpope/vim-abolish'
+
+" php
+Plugin 'StanAngeloff/php.vim'
+" Plugin 'phpactor/phpactor'
+" Plugin 'roxma/ncm-phpactor'
+" Plugin 'arnaud-lb/vim-php-namespace'
+" Plugin 'neomake/neomake'
+" Plugin 'adoy/vim-php-refactoring-toolbox'
 
 " python
 Plugin 'mitechie/pyflakes-pathogen' " python syntax/warning checking
@@ -139,6 +159,7 @@ Plugin 'vim-airline/vim-airline-themes' " improved  status bar (forked from powe
 " Plugin 'thinca/vim-fontzoom' " change the font size with contorl +/-
 " Plugin 'luochen1990/rainbow' " parens nesting
 Plugin 'kien/rainbow_parentheses.vim' " parens nesting
+" Plugin 'mhinz/vim-startify'
 
 " colors
 " Plugin 'vim-scripts/hexHighlight.vim' " for tweaking color schemes
@@ -151,15 +172,23 @@ Plugin 'scrooloose/nerdtree' " show sidebar with directory structure
 Plugin 'vim-scripts/taglist.vim' " show sidebar with file organization
 Plugin 'majutsushi/tagbar' " same idea as taglist but sometimes one or the other
                            " works better so I have both installed
-Plugin 'vim-scripts/TaskList.vim' " Todo sidebar
+" Plugin 'vim-scripts/TaskList.vim' " Todo sidebar
 Plugin 'sjl/gundo.vim' " revision history
 " Plugin 'wincent/Command-T' " fuzzy file search
 
 """ other
-Plugin 'xolox/vim-misc' " required for other xolox plugins
+" Plugin 'xolox/vim-misc' " required for other xolox plugins
 " Plugin 'xolox/vim-notes' " simple note-taking filetype/system
 Plugin 'tpope/vim-surround' " add vim motions to change what text is surrounded
                             " with (e.g., parens vs. square brackers vs. quotes)
+Plugin 'jamessan/vim-gnupg'
+Plugin 'moll/vim-bbye'
+Plugin 'amiorin/vim-project'
+
+" search and replace
+Plugin 'junegunn/fzf.vim' " requires junegunn/fzf
+Plugin 'BurntSushi/ripgrep'
+Plugin 'wincent/ferret'
 call vundle#end()
 " }}} Bundle
 
@@ -182,7 +211,7 @@ if has("gui_running")
   " set guifont=Inconsolata\ for\ Powerline\ Medium\ 8
   " set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Medium\ 8
   " set guifont=Meslo\ LG\ M\ DZ\ for\ Powerline\ 10
-  set guifont=Iosevka\ Term\ Medium\ 10
+  set guifont=Iosevka\ Term\ Regular\ 10
   let g:molokai_original = 1
 endif
 " }}} UI
@@ -260,7 +289,7 @@ endfun
 let g:python_slow_sync=1
 let g:python_highlight_all=1
 
-let g:writing = ['tex', 'latex', 'text']
+let g:writing = ['tex', 'latex', 'text', 'markdown']
 
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
@@ -338,6 +367,7 @@ noremap <c-h> <c-w>h
 map <F3> :RopeGotoDefinition<CR>
 map <leader>r :RopeRename<CR>
 noremap <F9> :NERDTreeToggle<CR>
+noremap <leader>t :NERDTreeFocus<CR>
 " :noremap <F10> :TlistToggle<CR>
 noremap <F10> :TagbarToggle<CR>
 noremap <leader><F10> :TlistToggle<CR>
@@ -431,6 +461,13 @@ let g:haddock_docdir="/usr/share/doc/ghc/"
 "miniBufExpl
 "let g:miniBufExplMapCTabSwitchBufs = 1
 "let g:miniBufExplForceSyntaxEnable = 1
+
+" nvim-completion-manager
+" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" imap <expr> <Tab> len(cm#context()["startcol"]) > 2 ? "\<Plug>(cm_force_refresh)" : "\<Tab>"
+
+let g:cm_matcher = {'module': 'cm_matchers.fuzzy_matcher'}
 
 "Rainbow parens
 let g:rainbow_active = 1
@@ -529,6 +566,34 @@ let g:Tex_InternalTagsDefinitions = 1
 imap <C-space> <Plug>IMAP_JumpForward
 
 "YouCompleteMe
+let g:ycm_register_as_syntastic_checker = 1
+let g:ycm_show_diagnostics_ui = 1
+let g:ycm_enable_diagnostic_signs = 1
+let g:ycm_enable_diagnostic_highlighting = 0
+let g:ycm_always_populate_location_list = 1 "default 0
+let g:ycm_open_loclist_on_ycm_diags = 1 "default 1
+
+
+let g:ycm_complete_in_strings = 1 "default 1
+let g:ycm_collect_identifiers_from_tags_files = 0 "default 0
+let g:ycm_path_to_python_interpreter = '' "default ''
+
+
+let g:ycm_server_use_vim_stdout = 0 "default 0 (logging to console)
+let g:ycm_server_log_level = 'info' "default info
+
+
+" let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'  "where to search for .ycm_extra_conf.py if not found
+let g:ycm_confirm_extra_conf = 1
+
+
+let g:ycm_goto_buffer_command = 'same-buffer' "[ 'same-buffer', 'horizontal-split', 'vertical-split', 'new-tab' ]
+let g:ycm_filetype_whitelist = { '*': 1 }
+let g:ycm_key_invoke_completion = '<C-Space>'
+
+
+nnoremap <F11> :YcmForceCompileAndDiagnostics <CR>
 let g:ycm_add_preview_to_completeopt=0
+let g:ycm_server_python_interpreter = '/usr/bin/python'
 
 """ }}} Plugins
