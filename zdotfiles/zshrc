@@ -1,16 +1,25 @@
 #
-# Executes commands at login pre-zshrc
+# Executes commands at the start of an interactive session.
 #
 # Authors:
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
 
 # Source Prezto.
-if [[ -s "${ZDOTDIR}/init.zsh" ]]; then
-  source "${ZDOTDIR}/init.zsh"
+if [[ -s "${ZDOTDIR:-$HOME/.zprezto}/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME/.zprezto}/init.zsh"
 fi
-#
+
 # Customize to your needs...
 
 alias dmesg="dmesg --human"
-alias vim="nvim"
+if type "nvim" > /dev/null; then
+    alias vim="nvim"
+fi
+
+if type "tmux" > /dev/null; then
+    alias tmux="tmux -2"
+fi
+
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
