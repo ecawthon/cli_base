@@ -30,8 +30,8 @@ if type "tmux" > /dev/null; then
     alias tmux="tmux -2"
 fi
 # Set prompt
-hostnamecolor=$(hostname -f | od | tr ' ' '\n' | awk '{total = total + $1}END{print 30 + (total % 6)}')
-usercolor=$(whoami | od | tr ' ' '\n' | awk '{total = total + $1}END{print 30 + (total % 6)}')
+hostnamecolor=$(hostname -f | od | tr ' ' '\n' | awk '{total = total + $1}END{print (30 + total) % 6}')
+usercolor=$(whoami | od | tr ' ' '\n' | awk '{total = total + $1}END{print (30 + total) % 6}')
 prompt adam2 'yellow' 'magenta' '${hostnamecolor}' 'black' '${usercolor}'
 
 # Add commands to history as they are entered, don't wait for shell to exit
