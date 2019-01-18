@@ -150,6 +150,9 @@ Plugin 'hynek/vim-python-pep8-indent'
 " Plugin 'python-rope/ropemode'
 " Plugin 'python-rope/ropevim'
 
+" servers
+Plugin 'saltstack/salt-vim'
+
 """ UI
 " lines
 Plugin 'bling/vim-airline' " improved  status bar (forked from powerline)
@@ -298,6 +301,7 @@ if has("autocmd")
   " Use the default filetype settings, so that mail gets 'tw' set to 72,
   " 'cindent' is on in C files, etc.
   " Also load indent files, to automatically do language-dependent indenting.
+  filetype off
   filetype plugin indent on
 
   " Put these in an autocmd group, so that we can delete them easily.
