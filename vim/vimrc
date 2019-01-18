@@ -97,10 +97,10 @@ Plugin 'ervandew/supertab' " tab completion - not needed if YCM is used
 Plugin 'vim-vdebug/vdebug'
 
 " nvim
-Plugin 'roxma/nvim-completion-manager'
-Plugin 'bfredl/nvim-miniyank'
-Plugin 'w0rp/ale' " linting
-
+" Plugin 'roxma/nvim-completion-manager'
+" Plugin 'bfredl/nvim-miniyank'
+" Plugin 'w0rp/ale' " linting
+"
 " git
 Plugin 'tpope/vim-fugitive' " Git integration
 Plugin 'tpope/vim-git' " Git syntax
@@ -113,24 +113,24 @@ Plugin 'tpope/vim-git' " Git syntax
 " Plugin 'fatih/vim-go'
 
 "haskell
-Plugin 'lukerandall/haskellmode-vim'
-Plugin 'travitch/hasksyn'
-
+" Plugin 'lukerandall/haskellmode-vim'
+" Plugin 'travitch/hasksyn'
+"
 " javascript
-Plugin 'pangloss/vim-javascript'
+" Plugin 'pangloss/vim-javascript'
 
 " latex
 " Plugin 'git://git.code.sf.net/p/vim-latex/vim-latex'
-Plugin 'vim-latex/vim-latex'
+" Plugin 'vim-latex/vim-latex'
 " Plugin 'vim-scripts/Latex-Text-Formatter'
 
 " markdown
 " Plugin 'gabrielelana/vim-markdown'
-Plugin 'godlygeek/tabular'
+" Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
-Plugin 'jszakmeister/markdown2ctags'
-Plugin 'tpope/vim-abolish'
-
+" Plugin 'jszakmeister/markdown2ctags'
+" Plugin 'tpope/vim-abolish'
+"
 " php
 Plugin 'StanAngeloff/php.vim'
 " Plugin 'phpactor/phpactor'
@@ -140,16 +140,16 @@ Plugin 'StanAngeloff/php.vim'
 " Plugin 'adoy/vim-php-refactoring-toolbox'
 
 " python
-Plugin 'mitechie/pyflakes-pathogen' " python syntax/warning checking
-Plugin 'mileszs/ack.vim'
-Plugin 'fs111/pydoc.vim'
+" Plugin 'mitechie/pyflakes-pathogen' " python syntax/warning checking
+" Plugin 'mileszs/ack.vim'
+" Plugin 'fs111/pydoc.vim'
 " Plugin 'vim-scripts/pep8' " python code validation
-Plugin 'alfredodeza/pytest.vim'
-Plugin 'reinh/vim-makegreen'
-Plugin 'hynek/vim-python-pep8-indent'
-" Plugin 'python-rope/ropemode'
-" Plugin 'python-rope/ropevim'
-
+" Plugin 'alfredodeza/pytest.vim'
+" Plugin 'reinh/vim-makegreen'
+" Plugin 'hynek/vim-python-pep8-indent'
+" " Plugin 'python-rope/ropemode'
+" " Plugin 'python-rope/ropevim'
+"
 " servers
 Plugin 'saltstack/salt-vim'
 
@@ -166,9 +166,10 @@ Plugin 'kien/rainbow_parentheses.vim' " parens nesting
 
 " colors
 " Plugin 'vim-scripts/hexHighlight.vim' " for tweaking color schemes
-Plugin 'MichaelMalick/vim-colors-bluedrake' " another color scheme
+" Plugin 'MichaelMalick/vim-colors-bluedrake' " another color scheme
 " Plugin 'altercation/vim-colors-solarized' " another color scheme
-Plugin 'freeo/vim-kalisi'
+" Plugin 'freeo/vim-kalisi'
+Plugin 'vim-scripts/summerfruit256.vim'
 
 " sidebars
 Plugin 'scrooloose/nerdtree' " show sidebar with directory structure
@@ -186,12 +187,12 @@ Plugin 'tpope/vim-surround' " add vim motions to change what text is surrounded
                             " with (e.g., parens vs. square brackers vs. quotes)
 Plugin 'jamessan/vim-gnupg'
 Plugin 'moll/vim-bbye'
-Plugin 'amiorin/vim-project'
+" Plugin 'amiorin/vim-project'
 
 " search and replace
-Plugin 'junegunn/fzf.vim' " requires junegunn/fzf
-Plugin 'BurntSushi/ripgrep'
-Plugin 'wincent/ferret'
+" Plugin 'junegunn/fzf.vim' " requires junegunn/fzf
+" Plugin 'BurntSushi/ripgrep'
+" Plugin 'wincent/ferret'
 call vundle#end()
 " }}} Bundle
 
