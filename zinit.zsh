@@ -1,6 +1,6 @@
 #!/bin/zsh
 setopt EXTENDED_GLOB
 for rcfile in "${ZDOTDIR:-$PWD}"/^README.md(.N); do
-  ln -s "$rcfile" "$HOME/.${rcfile:t}"
+    (ln -s "$rcfile" "$HOME/.${rcfile:t}" || true)
 done
-chsh -s /bin/zsh
+sudo chsh -s /bin/zsh
