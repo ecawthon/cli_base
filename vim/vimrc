@@ -94,7 +94,7 @@ Plugin 'tomtom/tcomment_vim' " (un/)comment lines with 'gc' motion
 " Plugin 'msanders/snipmate.vim' " snippets
 Plugin 'ervandew/supertab' " tab completion - not needed if YCM is used
 " Plugin 'xolox/vim-easytags' " tags, for languages that don't provide their own
-Plugin 'vim-vdebug/vdebug'
+" Plugin 'vim-vdebug/vdebug'
 
 " nvim
 " Plugin 'roxma/nvim-completion-manager'
