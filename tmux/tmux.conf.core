@@ -1,0 +1,50 @@
+# set -g prefix C-a
+setw -g mode-keys vi
+set -g status-keys vi
+set -g visual-activity on
+setw -g mouse on
+set -g default-terminal "screen-256color"
+# vim-like pane switching
+bind h select-pane -L
+bind j select-pane -D
+bind k select-pane -U
+bind l select-pane -R
+# vim-like resizing
+bind -r H resize-pane -L 5
+bind -r J resize-pane -D 5
+bind -r K resize-pane -U 5
+bind -r L resize-pane -R 5
+## mouse tweaks
+# make scrolling with wheels work
+bind -n WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if -Ft= '#{pane_in_mode}' 'send-keys -M' 'select-pane -t=; copy-mode -e; send-keys -M'"
+bind -n WheelDownPane select-pane -t= \; send-keys -M
+# toggle mouse mode to allow mouse copy/paste
+# set mouse on with prefix m
+bind m \
+    set -g mode-mouse on \;\
+    set -g mouse-resize-pane on \;\
+    set -g mouse-select-pane on \;\
+    set -g mouse-select-window on \;\
+    display 'Mouse: ON'
+# set mouse off with prefix M
+bind M \
+    set -g mode-mouse off \;\
+    set -g mouse-resize-pane off \;\
+    set -g mouse-select-pane off \;\
+    set -g mouse-select-window off \;\
+    display 'Mouse: OFF'
+# zoom this pane to full screen
+bind + \
+    new-window -d -n tmux-zoom 'clear && echo TMUX ZOOM && read' \;\
+    swap-pane -s tmux-zoom.0 \;\
+    select-window -t tmux-zoom
+# restore this pane
+bind - \
+    last-window \;\
+    swap-pane -s tmux-zoom.0 \;\
+    kill-window -t tmux-zoom
+
+ # messages
+ set -g message-attr bold
+ set -g message-fg colour15
+ set -g message-bg colour232
