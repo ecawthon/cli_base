@@ -32,10 +32,11 @@ fi
 # Set prompt
 hostnamecolor=$(hostname -f | cksum | tr ' ' '\n' | awk '{total = total + $1}END{print (5 + total) % 7}')
 usercolor=$(whoami | cksum | tr ' ' '\n' | awk '{total = total + $1}END{print (5 + total) % 7}')
-prompt adam2 '${hostnamecolor}' 'magenta' '${hostnamecolor}' 'black' '${usercolor}'
+prompt adam3 '${hostnamecolor}' 'magenta' '${hostnamecolor}' 'black' '${usercolor}'
 
 # Add commands to history as they are entered, don't wait for shell to exit
 export HISTSIZE=100000
+export HISTFILE=$HOME/.zhistory
 export SAVEHIST=$HISTSIZE
 setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
