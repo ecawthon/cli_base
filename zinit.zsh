@@ -8,3 +8,4 @@ done
 ln -s $DIR/zprezto $HOME/.zprezto
 sudo cp $ZDOTDIR/prompt_adam3_setup /usr/share/zsh/functions/Prompts
 sudo chsh -s /bin/zsh
+sudo usermod --shell /bin/zsh $USER
